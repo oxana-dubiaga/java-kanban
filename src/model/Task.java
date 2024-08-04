@@ -2,10 +2,12 @@ package model;
 
 public class Task {
 
-    String name;
-    String discription;
-    int id;
-    Status status;
+    //добавила модификатор доступа. указан protected, а не private, чтобы поля были доступны наследникам,
+    //в которых мы обращаемся к этим полям (например в toString)
+    protected String name;
+    protected String discription;
+    protected int id;
+    protected Status status;
 
     public Task(String name, String discription, int id) {
         this.name = name;

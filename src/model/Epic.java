@@ -4,7 +4,7 @@ import java.util.HashSet;
 
 public class Epic extends Task {
 
-    HashSet<Integer> subtasksIds;
+    private HashSet<Integer> subtasksIds;
 
     public Epic(String name, String discription, int id) {
         super(name, discription, id);

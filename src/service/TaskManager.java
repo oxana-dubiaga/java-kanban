@@ -8,6 +8,7 @@ import model.Task;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 
 public class TaskManager {
 
@@ -54,16 +55,28 @@ public class TaskManager {
 
 
     //получение списка всех задач для трех видов
-    public HashMap<Integer, Task> getAllTasks() {
-        return tasks;
+    public List<Task> getAllTasks() {
+        ArrayList<Task> allTasks = new ArrayList<>();
+        for (int i : tasks.keySet()) {
+            allTasks.add(tasks.get(i));
+        }
+        return allTasks;
     }
 
-    public HashMap<Integer, Epic> getAllEpics() {
-        return epics;
+    public List<Epic> getAllEpics() {
+        ArrayList<Epic> allEpics = new ArrayList<>();
+        for (int i : epics.keySet()) {
+            allEpics.add(epics.get(i));
+        }
+        return allEpics;
     }
 
-    public HashMap<Integer, Subtask> getAllSubtasks() {
-        return subtasks;
+    public List<Subtask> getAllSubtasks() {
+        ArrayList<Subtask> allSubtasks = new ArrayList<>();
+        for (int i : subtasks.keySet()) {
+            allSubtasks.add(subtasks.get(i));
+        }
+        return allSubtasks;
     }
 
 
@@ -82,7 +95,7 @@ public class TaskManager {
     }
 
     public void addNewSubtask(Subtask newSubtask) {
-        int parentEpicId = newSubtask.getParenEpicId();
+        int parentEpicId = newSubtask.getEpicId();
         if (!epics.containsKey(parentEpicId)) {
             System.out.println("Эпика, указанного в подзадаче, не существует, подзадача не добавлена");
         } else {
@@ -114,6 +127,8 @@ public class TaskManager {
         for (int i : epics.keySet()) {
             Epic epic = epics.get(i);
             epic.deleteAllSubtasks();
+            //в методе deleteAllSubtasks() класса Epic при удалении всех подзадач эпику сразу присваивается статус NEW,
+            //поэтому здесь дополнительно не нужно делать обновление статуса эпика
             epics.put(i, epic);
         }
     }
@@ -133,7 +148,7 @@ public class TaskManager {
 
     public void deleteSubtask(int id) {
         Subtask s = subtasks.get(id);
-        Epic parentEpic = epics.get(s.getParenEpicId());
+        Epic parentEpic = epics.get(s.getEpicId());
         parentEpic.deleteSubtask(s);
         parentEpic = updateEpicStatus(parentEpic);
         epics.put(parentEpic.getId(), parentEpic);
@@ -177,23 +192,24 @@ public class TaskManager {
             System.out.println("Такой подзадачи нет в списке");
         } else {
             Subtask oldSubtask = subtasks.get(id);
-            int oldParentEpicId = oldSubtask.getParenEpicId();
-            int newParentEpicId = newSubtask.getParenEpicId();
+            int oldParentEpicId = oldSubtask.getEpicId();
+            int newParentEpicId = newSubtask.getEpicId();
+            Epic parentEpic = epics.get(newParentEpicId);
             if (oldParentEpicId != newParentEpicId) {
                 Epic oldParentEpic = epics.get(oldParentEpicId);
                 oldParentEpic.deleteSubtask(newSubtask);
                 oldParentEpic = updateEpicStatus(oldParentEpic);
                 epics.put(oldParentEpicId, oldParentEpic);
+                parentEpic.addSubtask(newSubtask);
             }
             subtasks.put(id, newSubtask);
-            Epic parentEpic = epics.get(newParentEpicId);
             parentEpic = updateEpicStatus(parentEpic);
             epics.put(newParentEpicId, parentEpic);
         }
     }
 
 
-    public ArrayList<Subtask> getEpicsSubtasks(Epic epic) {
+    public List<Subtask> getEpicsSubtasks(Epic epic) {
         ArrayList<Subtask> subtasksInEpic = new ArrayList<>();
         HashSet<Integer> subtasksIds = epic.getSubtasksIds();
         for (int id : subtasksIds) {

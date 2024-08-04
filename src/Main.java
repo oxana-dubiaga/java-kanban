@@ -64,6 +64,22 @@ public class Main {
         System.out.println(taskManager.getEpic(100));
         System.out.println(taskManager.getSubtask(100));
 
+        //проверка изменения принадлжености подзадачи
+        System.out.println(taskManager.getEpic(3));
+        System.out.println(taskManager.getEpic(7));
+        System.out.println("-----------");
+        Subtask subtask5 = new Subtask("Сделать визу", "---", 9, 7); // с тем жу id как сейчас у subtask3, но принадлежит другому эпику. Должна заменить subtask 3 (сравнение в equals по id)
+        subtask5.setStatus(Status.IN_PROGRESS); //меняем статус, чтобы у нового родительского эпика поменялся с new на in progress
+        taskManager.updateSubtask(subtask5);
+        Subtask subtask6 = new Subtask("Купить билеты на самолет", "----", 4, 3); //замена в том же эпике
+        taskManager.updateSubtask(subtask6);
+        System.out.println(taskManager.getEpic(3));
+        System.out.println(taskManager.getEpicsSubtasks(taskManager.getEpic(3)));
+        System.out.println(taskManager.getEpic(7));
+        System.out.println(taskManager.getEpicsSubtasks(taskManager.getEpic(7)));
+        System.out.println("-----------");
+
+
         //проверка удаления эпика
         taskManager.deleteEpic(3);
         System.out.println(taskManager.getAllEpics());
