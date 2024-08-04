@@ -56,26 +56,17 @@ public class TaskManager {
 
     //получение списка всех задач для трех видов
     public List<Task> getAllTasks() {
-        ArrayList<Task> allTasks = new ArrayList<>();
-        for (int i : tasks.keySet()) {
-            allTasks.add(tasks.get(i));
-        }
+        ArrayList<Task> allTasks = new ArrayList<>(tasks.values());
         return allTasks;
     }
 
     public List<Epic> getAllEpics() {
-        ArrayList<Epic> allEpics = new ArrayList<>();
-        for (int i : epics.keySet()) {
-            allEpics.add(epics.get(i));
-        }
+        ArrayList<Epic> allEpics = new ArrayList<>(epics.values());
         return allEpics;
     }
 
     public List<Subtask> getAllSubtasks() {
-        ArrayList<Subtask> allSubtasks = new ArrayList<>();
-        for (int i : subtasks.keySet()) {
-            allSubtasks.add(subtasks.get(i));
-        }
+        ArrayList<Subtask> allSubtasks = new ArrayList<>(subtasks.values());;
         return allSubtasks;
     }
 
