@@ -2,13 +2,13 @@ import model.Epic;
 import model.Status;
 import model.Subtask;
 import model.Task;
-import service.TaskManager;
+import service.*;
 
 public class Main {
     public static void main(String[] args) {
 
         //экземпляры разных классов для тестов
-        TaskManager taskManager = new TaskManager();
+        TaskManager taskManager = Managers.getDefault();
 
         //задачи
         Task task1 = new Task("Помыть машину", "Нужно съездить на мойку", 555);
@@ -42,11 +42,18 @@ public class Main {
         task2.setDiscription("75 лет");
         taskManager.updateTask(task2);
         System.out.println(taskManager.getTask(2));
+        //проверка работы с историей
+        System.out.println("История");
+        System.out.println(taskManager.getHistory());
+
 
         //проверка обновления подзадачи и смены статусов у эпика при изменениях подзадач
         subtask2.setStatus(Status.IN_PROGRESS);
         taskManager.updateSubtask(subtask2);
         System.out.println(taskManager.getEpic(3).getStatus());
+        //проверка работы с историей
+        System.out.println("История");
+        System.out.println(taskManager.getHistory());
 
         //проверка удаления и добавления подзадач и смены статусов у эпика при изменениях подзадач
         taskManager.deleteSubtask(6);
@@ -84,6 +91,13 @@ public class Main {
         taskManager.deleteEpic(3);
         System.out.println(taskManager.getAllEpics());
         System.out.println(taskManager.getAllSubtasks());
+
+        //проверка работы с историей
+        //самый первый просмотр (task id2) должен пропасть
+        System.out.println("История");
+        System.out.println(taskManager.getHistory());
+
+        Epic epic15 = new Epic("fff", "qqq", 55);
 
 
     }

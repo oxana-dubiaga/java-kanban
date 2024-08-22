@@ -14,7 +14,11 @@ public class Subtask extends Task {
     }
 
     public void setEpicId(int epicId) {
-        this.epicId = epicId;
+        if (epicId == id) {
+            System.out.println("Id Эпика совпадает с Id текущей подзадачи!");
+        } else {
+            this.epicId = epicId;
+        }
     }
 
     @Override
