@@ -10,8 +10,8 @@ public class EpicTest {
 
     @Test
     public void equalsEpicsByIdCheck() {
-        Epic epic1 = new Epic("name", "discription", 3);
-        Epic epic2 = new Epic("name", "discription", 3);
+        Epic epic1 = new Epic("name", "description", 3);
+        Epic epic2 = new Epic("name", "description", 3);
 
         assertEquals(epic1, epic2, "Эпики с одинаковым id не равны");
     }
@@ -19,11 +19,11 @@ public class EpicTest {
     @Test
     public void addAndDeleteSubtask() {
         int epicId = 3;
-        Epic epic1 = new Epic("name", "discription", 3);
+        Epic epic1 = new Epic("name", "description", 3);
         int subtaskId1 = 4;
-        Subtask subtask1 = new Subtask("name", "discription", subtaskId1, epicId);
+        Subtask subtask1 = new Subtask("name", "description", subtaskId1, epicId);
         int subtaskId2 = 5;
-        Subtask subtask2 = new Subtask("name", "discription", subtaskId2, epicId);
+        Subtask subtask2 = new Subtask("name", "description", subtaskId2, epicId);
 
         epic1.addSubtask(subtask1);
         HashSet<Integer> epicsSubrasks = epic1.getSubtasksIds();

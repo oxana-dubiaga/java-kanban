@@ -13,12 +13,14 @@ public class Subtask extends Task {
         return epicId;
     }
 
+    //Убрала проверку, добавляла только потому, что тз был такой рекомендуемый тест
+    // "проверьте, что объект Epic нельзя добавить в самого себя в виде подзадачи";
+    //но это и так нельзя было бы сделать, так как метод добавления у эпика принимает
+    // на вход сабтаск и передать в него сам эпик не получилось бы
+    //я решила на всякий случай еще ограничить возможность, чтобы у эпика и сабтаска был одинаковый Id
+    //но это наверное действительно излишнее
     public void setEpicId(int epicId) {
-        if (epicId == id) {
-            System.out.println("Id Эпика совпадает с Id текущей подзадачи!");
-        } else {
-            this.epicId = epicId;
-        }
+        this.epicId = epicId;
     }
 
     @Override
@@ -26,7 +28,7 @@ public class Subtask extends Task {
         return "Subtask{" +
                 "epicId=" + epicId +
                 ", name='" + name + '\'' +
-                ", discription='" + discription + '\'' +
+                ", description='" + description + '\'' +
                 ", id=" + id +
                 ", status=" + status +
                 '}';

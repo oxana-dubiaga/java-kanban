@@ -25,7 +25,7 @@ public class InMemoryTaskManagerTest {
     @Test
     public void operationWithTaskInManager() {
         int taskId = 1;
-        Task task = new Task("Task", "discription", taskId);
+        Task task = new Task("Task", "description", taskId);
         taskManager.addNewTask(task);
 
         Task savedTask = taskManager.getTask(taskId);
@@ -69,7 +69,7 @@ public class InMemoryTaskManagerTest {
     @Test
     public void operationWithEpicInManager() {
         int epicId = 1;
-        Epic epic = new Epic("Epic", "discription", epicId);
+        Epic epic = new Epic("Epic", "description", epicId);
         taskManager.addNewEpic(epic);
 
         Epic savedEpic = taskManager.getEpic(epicId);
@@ -114,7 +114,7 @@ public class InMemoryTaskManagerTest {
         //добавление подзадачи
         //для существования подзадачи в менеджере нужен также и её эпик
         int epicId = 1;
-        Epic epic = new Epic("Epic", "discription", epicId);
+        Epic epic = new Epic("Epic", "description", epicId);
         taskManager.addNewEpic(epic);
         int subtaskId = 2;
         Subtask subtask = new Subtask("name", "---", subtaskId, 1);
@@ -159,7 +159,7 @@ public class InMemoryTaskManagerTest {
     public void interactionOfEpicsAndSubtasksInManager() {
         //добавление эпика
         int epicId = 1;
-        Epic epic = new Epic("Epic", "discription", epicId);
+        Epic epic = new Epic("Epic", "description", epicId);
         taskManager.addNewEpic(epic);
 
         //добавление подзадачи
@@ -217,9 +217,9 @@ public class InMemoryTaskManagerTest {
     @Test
     public void historyInManager() {
         int taskId = 1;
-        Task task = new Task("Task", "discription", taskId);
+        Task task = new Task("Task", "description", taskId);
         int epicId = 2;
-        Epic epic = new Epic("Epic", "discription", epicId);
+        Epic epic = new Epic("Epic", "description", epicId);
         int subtaskId = 3;
         Subtask subtask = new Subtask("name", "---", subtaskId, epicId);
         taskManager.addNewTask(task);

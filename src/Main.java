@@ -39,7 +39,7 @@ public class Main {
         System.out.println(taskManager.getAllSubtasks());
 
         //проверка обновления задачи
-        task2.setDiscription("75 лет");
+        task2.setDescription("75 лет");
         taskManager.updateTask(task2);
         System.out.println(taskManager.getTask(2));
         //проверка работы с историей

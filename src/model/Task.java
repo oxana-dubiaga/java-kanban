@@ -5,13 +5,13 @@ public class Task {
     //добавила модификатор доступа. указан protected, а не private, чтобы поля были доступны наследникам,
     //в которых мы обращаемся к этим полям (например в toString)
     protected String name;
-    protected String discription;
+    protected String description;
     protected int id;
     protected Status status;
 
-    public Task(String name, String discription, int id) {
+    public Task(String name, String description, int id) {
         this.name = name;
-        this.discription = discription;
+        this.description = description;
         this.id = id;
         status = Status.NEW;
     }
@@ -20,8 +20,8 @@ public class Task {
         return name;
     }
 
-    public String getDiscription() {
-        return discription;
+    public String getDescription() {
+        return description;
     }
 
     public int getId() {
@@ -36,8 +36,8 @@ public class Task {
         this.name = name;
     }
 
-    public void setDiscription(String discription) {
-        this.discription = discription;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public void setId(int id) {
@@ -66,7 +66,7 @@ public class Task {
     public String toString() {
         return "Task{" +
                 "name='" + name + '\'' +
-                ", discription='" + discription + '\'' +
+                ", description='" + description + '\'' +
                 ", id=" + id +
                 ", status=" + status +
                 '}';
