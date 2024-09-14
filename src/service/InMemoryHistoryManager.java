@@ -34,9 +34,8 @@ public class InMemoryHistoryManager implements HistoryManager {
         if (mapHistory.isEmpty()) {
             first = newNode;
             mapHistory.put(task.getId(), newNode);
-        }
-        // если история состоит из одного элемента, то этот элемент first
-        else if (mapHistory.size() == 1) {
+        } else if (mapHistory.size() == 1) {
+            // если история состоит из одного элемента, то этот элемент first
             if (mapHistory.containsKey(task.getId())) {
                 mapHistory.remove(task.getId());
                 mapHistory.put(task.getId(), newNode);
