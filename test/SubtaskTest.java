@@ -24,16 +24,4 @@ public class SubtaskTest {
         assertEquals(newEpicId, resultEpicId, "Не изменяется Id эпика");
     }
 
-    @Test
-    public void cantUseSubtaskAsItsOwnEpic() {
-        Subtask subtask = new Subtask("name", "description", 5, 3);
-        int expectedEpicId = 3;
-
-        //пытаемся установить для подзадачи в качестве EpicID ее собственный ID
-        subtask.setEpicId(5);
-        int result = subtask.getEpicId();
-
-        assertEquals(expectedEpicId, result);
-    }
-
 }

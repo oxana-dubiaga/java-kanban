@@ -220,11 +220,14 @@ public class InMemoryTaskManagerTest {
         Task task = new Task("Task", "description", taskId);
         int epicId = 2;
         Epic epic = new Epic("Epic", "description", epicId);
-        int subtaskId = 3;
-        Subtask subtask = new Subtask("name", "---", subtaskId, epicId);
+        int subtask1Id = 3;
+        Subtask subtask1 = new Subtask("name", "---", subtask1Id, epicId);
+        int subtask2Id = 4;
+        Subtask subtask2 = new Subtask("name", "---", subtask2Id, epicId);
         taskManager.addNewTask(task);
         taskManager.addNewEpic(epic);
-        taskManager.addNewSubtask(subtask);
+        taskManager.addNewSubtask(subtask1);
+        taskManager.addNewSubtask(subtask2);
 
         //проверка что список просмотров создается пустым
         List<Task> history = new ArrayList<>();
@@ -242,22 +245,40 @@ public class InMemoryTaskManagerTest {
         assertEquals(0, history.size(), "Список просмотров не очищается");
 
         //проверка просмотров эпиков
+        taskManager.cleanHistory();
         taskManager.getEpic(epicId);
         history = taskManager.getHistory();
         assertEquals(1, history.size(), "Просмотры эпиков не добавляются в историю");
         taskManager.cleanHistory();
 
         //проверка просмотров подзадач
-        taskManager.getSubtask(subtaskId);
+        taskManager.getSubtask(subtask1Id);
         history = taskManager.getHistory();
         assertEquals(1, history.size(), "Просмотры подзадач не добавляются в историю");
+        taskManager.cleanHistory();
 
-        //проверка ограничения списка просмотров по длине
-        for (int i = 1; i < 12; i++) {
-            taskManager.getTask(taskId);
-        }
+        //проверка что при удалении задачи она пропадает из истории
+        taskManager.getTask(taskId);
+        taskManager.deleteTask(taskId);
         history = taskManager.getHistory();
-        assertEquals(10, history.size(), "Направильное ограничение длины списка просмотров");
+        assertEquals(0, history.size(), "Удаляемые задачи остаются в истории");
+
+
+        //проверка что при удалении подзадачи она пропадает из истории
+        taskManager.getSubtask(subtask1Id);
+        taskManager.deleteSubtask(subtask1Id);
+        history = taskManager.getHistory();
+        assertEquals(0, history.size(), "Удаляеые подзадачи остаются в истории");
+
+
+        //проверка что при удалении эпика пропадает из истории он сам и его подзадачи
+        taskManager.getEpic(epicId);
+        taskManager.deleteSubtask(subtask2Id);
+        taskManager.deleteEpic(epicId);
+        history = taskManager.getHistory();
+        assertEquals(0, history.size(), "Удаляеые подзадачи остаются в истории");
+
+
     }
 
 }

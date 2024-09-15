@@ -87,18 +87,38 @@ public class Main {
         System.out.println("-----------");
 
 
-        //проверка удаления эпика
-        taskManager.deleteEpic(3);
-        System.out.println(taskManager.getAllEpics());
-        System.out.println(taskManager.getAllSubtasks());
+        System.out.println("История");
+        System.out.println(taskManager.getHistory());
+        System.out.println("вызываем id 2, поэтому он должен переместиться в конец истории");
+        taskManager.getTask(2);
+        System.out.println("История после повторного вызова id2");
+        System.out.println(taskManager.getHistory());
 
-        //проверка работы с историей
-        //самый первый просмотр (task id2) должен пропасть
+        System.out.println();
+        System.out.println();
+
+        System.out.println("Вызываем сабтаски эпика id3");
+        taskManager.getSubtask(4);
+        System.out.println("История");
+        System.out.println(taskManager.getHistory());
+        taskManager.getSubtask(5);
+        System.out.println("История");
+        System.out.println(taskManager.getHistory());
+        taskManager.getSubtask(4);
         System.out.println("История");
         System.out.println(taskManager.getHistory());
 
-        Epic epic15 = new Epic("fff", "qqq", 55);
 
+        //проверка удаления эпика
+        System.out.println("Удаляем эпик 3");
+        taskManager.deleteEpic(3);
+        System.out.println("все эпики");
+        System.out.println(taskManager.getAllEpics());
+        System.out.println("все сабтаски");
+        System.out.println(taskManager.getAllSubtasks());
+
+        System.out.println("История после удаления id3. Должен пропасть сам эпик 3 и сабтаски id4, id5");
+        System.out.println(taskManager.getHistory());
 
     }
 }
