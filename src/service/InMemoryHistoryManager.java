@@ -106,5 +106,7 @@ public class InMemoryHistoryManager implements HistoryManager {
     @Override
     public void clearHistory() {
         mapHistory.clear();
+        first = null;
+        last = null;
     }
 }

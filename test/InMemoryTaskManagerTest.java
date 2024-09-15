@@ -245,6 +245,7 @@ public class InMemoryTaskManagerTest {
         assertEquals(0, history.size(), "Список просмотров не очищается");
 
         //проверка просмотров эпиков
+        taskManager.cleanHistory();
         taskManager.getEpic(epicId);
         history = taskManager.getHistory();
         assertEquals(1, history.size(), "Просмотры эпиков не добавляются в историю");
