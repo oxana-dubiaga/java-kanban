@@ -49,4 +49,12 @@ public class Epic extends Task {
                 ", subtasksIds=" + subtasksIds.toString() +
                 '}';
     }
+
+    //представлеие в виде строки вида ID,TYPE,NAME,STATUS,DESCRIPTION,EPIC
+    @Override
+    public String toStringInFile() {
+        String str = id + ",Epic," + name + "," + status + "," + description + ",";
+        return str;
+    }
+
 }

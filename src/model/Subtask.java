@@ -33,4 +33,11 @@ public class Subtask extends Task {
                 ", status=" + status +
                 '}';
     }
+
+    //представлеие в виде строки вида ID,TYPE,NAME,STATUS,DESCRIPTION,EPIC
+    @Override
+    public String toStringInFile() {
+        String str = id + ",Subtask," + name + "," + status + "," + description + "," + epicId;
+        return str;
+    }
 }

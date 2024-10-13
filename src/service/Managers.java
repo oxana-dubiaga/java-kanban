@@ -11,4 +11,9 @@ public class Managers {
         return new InMemoryHistoryManager();
     }
 
+    public static FileBackedTaskManager getFileBackedTaskManager(String path) {
+        HistoryManager historyManager = getDefaultHistoryManager();
+        return new FileBackedTaskManager(historyManager, path);
+    }
+
 }

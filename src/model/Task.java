@@ -71,4 +71,11 @@ public class Task {
                 ", status=" + status +
                 '}';
     }
+
+    //представлеие в виде строки вида ID,TYPE,NAME,STATUS,DESCRIPTION,EPIC
+    public String toStringInFile() {
+        String str = id + ",Task," + name + "," + status + "," + description + ",";
+        return str;
+    }
+
 }
