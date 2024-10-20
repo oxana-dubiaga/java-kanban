@@ -12,7 +12,6 @@ import java.nio.file.Files;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class FileBackedTaskManagerTest extends AbstractTaskManagerTest {
 
@@ -39,6 +38,7 @@ public class FileBackedTaskManagerTest extends AbstractTaskManagerTest {
         //проверка добавления задачи
         taskManager.addNewTask(task);
         assertEquals(getListFromFile().size(), 1, "Задача не добавляется в файл.");
+        assertEquals(taskManager.getTask(taskId), task, "Добавленная задача не совпадает с исходной");
         //проверка удаления задачи
         taskManager.deleteTask(taskId);
         assertEquals(getListFromFile().size(), 0, "Задача не удаляется из файла.");
@@ -55,9 +55,11 @@ public class FileBackedTaskManagerTest extends AbstractTaskManagerTest {
         //проверка добавления эпика
         taskManager.addNewEpic(epic);
         assertEquals(getListFromFile().size(), 1, "Эпик не добавляется в файл.");
+        assertEquals(taskManager.getEpic(epicId), epic, "Добавленный эпик не совпадает с исходный");
         //проверка добавления сабтаски
         taskManager.addNewSubtask(subtask);
         assertEquals(getListFromFile().size(), 2, "Подзадача не добавляется в файл.");
+        assertEquals(taskManager.getSubtask(subtaskId), subtask, "Добавленная подзадача не совпадает с исходной");
 
         //проверка удаления сабтаски
         taskManager.deleteSubtask(subtaskId);

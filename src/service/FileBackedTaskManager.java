@@ -111,7 +111,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
                 bw.write(subtask.toStringInFile() + "\n");
             }
         } catch (IOException ex) {
-            throw new ManagerSaveException("Ошибка при сохранении в файл");
+            throw new ManagerSaveException("Ошибка при сохранении в файл " + filePath);
         }
 
     }
@@ -122,7 +122,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
         try {
             allTypesTasksFromFile = Files.readAllLines(file.toPath());
         } catch (IOException ex) {
-            throw new ManagerSaveException("Ошибка при чтении из файла");
+            throw new ManagerSaveException("Ошибка при чтении из файла " + file.getPath());
         }
 
         for (String line : allTypesTasksFromFile) {
@@ -136,17 +136,29 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
             if (splitLine.length == 5) {
                 if (splitLine[1].equalsIgnoreCase("Task")) {
                     Task task = new Task(splitLine[2], splitLine[4], Integer.parseInt(splitLine[0]));
-                    task = setStatusFromFile(task, splitLine[3]);
-                    fileBackedTaskManager.addNewTask(task);
+                    try {
+                        task = setStatusFromFile(task, splitLine[3]);
+                        fileBackedTaskManager.addNewTask(task);
+                    } catch (TaskStatusException ex) {
+                        System.out.println("В строке " + line + " статус не соответствует требуемому виду. Данные из строки не записаны.");
+                    }
                 } else if (splitLine[1].equalsIgnoreCase("Epic")) {
                     Epic epic = new Epic(splitLine[2], splitLine[4], Integer.parseInt(splitLine[0]));
-                    epic = setStatusFromFile(epic, splitLine[3]);
-                    fileBackedTaskManager.addNewEpic(epic);
+                    try {
+                        epic = setStatusFromFile(epic, splitLine[3]);
+                        fileBackedTaskManager.addNewEpic(epic);
+                    } catch (TaskStatusException ex) {
+                        System.out.println("В строке " + line + " статус не соответствует требуемому виду. Данные из строки не записаны.");
+                    }
                 }
             } else if (splitLine[1].equalsIgnoreCase("Subtask")) {
                 Subtask subtask = new Subtask(splitLine[2], splitLine[4], Integer.parseInt(splitLine[0]), Integer.parseInt(splitLine[5]));
-                subtask = setStatusFromFile(subtask, splitLine[3]);
-                fileBackedTaskManager.addNewSubtask(subtask);
+                try {
+                    subtask = setStatusFromFile(subtask, splitLine[3]);
+                    fileBackedTaskManager.addNewSubtask(subtask);
+                } catch (TaskStatusException ex) {
+                    System.out.println("В строке " + line + " статус не соответствует требуемому виду. Данные из строки не записаны.");
+                }
             } else {
                 System.out.println("Строка " + line + " не соответствует требуемому виду. Данные из строки не записаны.");
             }
@@ -156,15 +168,19 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
     }
 
 
-    private static <T extends Task> T setStatusFromFile(T task, String status) {
-        if (status.equalsIgnoreCase("New")) {
-            task.setStatus(Status.NEW);
-        } else if (status.equalsIgnoreCase("IN_PROGRESS")) {
-            task.setStatus(Status.IN_PROGRESS);
-        } else if (status.equalsIgnoreCase("Done")) {
-            task.setStatus(Status.DONE);
-        } else {
-            task.setStatus(Status.NEW);
+    private static <T extends Task> T setStatusFromFile(T task, String status) throws TaskStatusException {
+        switch (status.toLowerCase()) {
+            case ("new"):
+                task.setStatus(Status.NEW);
+                break;
+            case ("in_progress"):
+                task.setStatus(Status.IN_PROGRESS);
+                break;
+            case ("done"):
+                task.setStatus(Status.DONE);
+                break;
+            default:
+                throw new TaskStatusException("Некорректный статус задачи");
         }
         return task;
     }
