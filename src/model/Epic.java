@@ -38,6 +38,23 @@ public class Epic extends Task {
         throw new NoStartOrEndTimeException("В эпике нет ни одной подзадачи, поэтому время окончания отсутствует");
     }
 
+    private void updateTimeBounds() {
+        if (!startTimes.isEmpty()) {
+            startTime = startTimes.first();
+        } else {
+            startTime = null;
+        }
+        if (!endTimes.isEmpty()) {
+            endTime = endTimes.last();
+        } else {
+            endTime = null;
+        }
+        if (startTime != null && endTime != null) {
+            duration = Duration.between(startTime, endTime);
+        } else {
+            duration = Duration.ofMinutes(0);
+        }
+    }
 
     public void addSubtask(Subtask subtask) {
         int id = subtask.getId();
@@ -47,9 +64,7 @@ public class Epic extends Task {
             subtasksIds.add(id);
             startTimes.add(subtask.getStartTime());
             endTimes.add(subtask.getEndTime());
-            startTime = startTimes.first();
-            endTime = endTimes.last();
-            duration = Duration.between(startTime, endTime);
+            updateTimeBounds();
         }
     }
 
@@ -57,27 +72,9 @@ public class Epic extends Task {
         int id = subtask.getId();
         if (subtasksIds.contains(id)) {
             startTimes.remove(subtask.getStartTime());
-            if (!startTimes.isEmpty()) {
-                startTime = startTimes.first();
-            } else {
-                startTime = null;
-            }
-
             endTimes.remove(subtask.getEndTime());
-            if (!endTimes.isEmpty()) {
-                endTime = endTimes.last();
-            } else {
-                endTime = null;
-            }
-
-            if (startTime != null && endTime != null) {
-                duration = Duration.between(startTime, endTime);
-            } else {
-                duration = Duration.ofMinutes(0);
-            }
-
+            updateTimeBounds();
             subtasksIds.remove(id);
-
         } else {
             System.out.println("В эпике нет такой подзадачи");
         }
@@ -85,7 +82,6 @@ public class Epic extends Task {
 
     public void deleteAllSubtasks() {
         subtasksIds.clear();
-        status = Status.NEW;
         startTime = null;
         endTime = null;
         duration = Duration.ofMinutes(0);

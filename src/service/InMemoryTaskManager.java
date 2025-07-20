@@ -158,8 +158,7 @@ public class InMemoryTaskManager implements TaskManager {
         for (int i : epics.keySet()) {
             Epic epic = epics.get(i);
             epic.deleteAllSubtasks();
-            //в методе deleteAllSubtasks() класса Epic при удалении всех подзадач эпику сразу присваивается статус NEW,
-            //поэтому здесь дополнительно не нужно делать обновление статуса эпика
+            updateEpicStatus(epic);
             epics.put(i, epic);
         }
     }
