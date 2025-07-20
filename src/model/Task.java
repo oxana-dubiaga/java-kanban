@@ -1,5 +1,9 @@
 package model;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 public class Task {
 
     //добавила модификатор доступа. указан protected, а не private, чтобы поля были доступны наследникам,
@@ -8,6 +12,11 @@ public class Task {
     protected String description;
     protected int id;
     protected Status status;
+    protected Duration duration;
+    protected LocalDateTime startTime;
+
+    protected DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
+
 
     public Task(String name, String description, int id) {
         this.name = name;
@@ -15,6 +24,17 @@ public class Task {
         this.id = id;
         status = Status.NEW;
     }
+
+    //Конструктор с учетом времени на задачу
+    public Task(String name, String description, int id, int durationMinutes, String startTimeString) {
+        this.name = name;
+        this.description = description;
+        this.id = id;
+        status = Status.NEW;
+        duration = Duration.ofMinutes(durationMinutes);
+        startTime = LocalDateTime.parse(startTimeString, formatter);
+    }
+
 
     public String getName() {
         return name;
@@ -30,6 +50,19 @@ public class Task {
 
     public Status getStatus() {
         return status;
+    }
+
+    public Duration getDuration() {
+        return duration;
+    }
+
+    public LocalDateTime getStartTime() {
+        return startTime;
+    }
+
+    public LocalDateTime getEndTime() {
+        LocalDateTime endTime = startTime.plus(duration);
+        return endTime;
     }
 
     public void setName(String name) {
@@ -69,12 +102,17 @@ public class Task {
                 ", description='" + description + '\'' +
                 ", id=" + id +
                 ", status=" + status +
-                '}';
+                ", startTime=" + startTime.format(formatter) +
+                ", duration=" + duration +
+                ", startTime=" + startTime.format(formatter) +
+                ", endTime=" + getEndTime().format(formatter) +
+                '}' +
+                "\n";
     }
 
-    //представлеие в виде строки вида ID,TYPE,NAME,STATUS,DESCRIPTION,EPIC
+    //представлеие в виде строки вида ID,TYPE,NAME,STATUS,DESCRIPTION, StartTime, duration
     public String toStringInFile() {
-        String str = id + ",Task," + name + "," + status + "," + description + ",";
+        String str = id + ",Task," + name + "," + status + "," + description + "," + startTime.format(formatter) + "," + (duration.getSeconds() / 60);
         return str;
     }
 

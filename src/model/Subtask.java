@@ -9,16 +9,16 @@ public class Subtask extends Task {
         this.epicId = epicId;
     }
 
+    //Конструктор с учетом времени на задачу
+    public Subtask(String name, String discription, int id, int epicId, int durationMinutes, String startTimeString) {
+        super(name, discription, id, durationMinutes, startTimeString);
+        this.epicId = epicId;
+    }
+
     public int getEpicId() {
         return epicId;
     }
 
-    //Убрала проверку, добавляла только потому, что тз был такой рекомендуемый тест
-    // "проверьте, что объект Epic нельзя добавить в самого себя в виде подзадачи";
-    //но это и так нельзя было бы сделать, так как метод добавления у эпика принимает
-    // на вход сабтаск и передать в него сам эпик не получилось бы
-    //я решила на всякий случай еще ограничить возможность, чтобы у эпика и сабтаска был одинаковый Id
-    //но это наверное действительно излишнее
     public void setEpicId(int epicId) {
         this.epicId = epicId;
     }
@@ -31,13 +31,18 @@ public class Subtask extends Task {
                 ", description='" + description + '\'' +
                 ", id=" + id +
                 ", status=" + status +
-                '}';
+                ", startTime=" + startTime.format(formatter) +
+                ", duration=" + duration +
+                ", startTime=" + startTime.format(formatter) +
+                ", endTime=" + getEndTime().format(formatter) +
+                '}' +
+                "\n";
     }
 
-    //представлеие в виде строки вида ID,TYPE,NAME,STATUS,DESCRIPTION,EPIC
+    //представлеие в виде строки вида ID,TYPE,NAME,STATUS,DESCRIPTION,EPIC, StartTime, duration
     @Override
     public String toStringInFile() {
-        String str = id + ",Subtask," + name + "," + status + "," + description + "," + epicId;
+        String str = id + ",Subtask," + name + "," + status + "," + description + "," + epicId + "," + startTime.format(formatter) + "," + (duration.getSeconds() / 60);
         return str;
     }
 }

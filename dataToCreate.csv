@@ -1,2 +1,4 @@
-1,Task,Task1,NEW,Description task1,
-2,Epic,Epic2,NEW,Description epic2,
+1,Task,Task1,NEW,Description task1,20.07.2025 14:30,180
+2,Epic,Epic2,IN_PROGRESS,Description epic2
+3,Subtask,Sub Task2,DONE,Description sub task2,2,25.08.2025 11:00,15
+4,Subtask,Sub Task3,NEW,Description sub task3,2,24.08.2025 12:00,60
