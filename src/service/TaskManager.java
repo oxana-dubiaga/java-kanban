@@ -5,6 +5,7 @@ import model.Subtask;
 import model.Task;
 
 import java.util.List;
+import java.util.TreeSet;
 
 public interface TaskManager {
 
@@ -57,6 +58,12 @@ public interface TaskManager {
 
 
     List<Subtask> getEpicsSubtasks(Epic epic);
+
+    //получение сортированного по времени списка задач
+    TreeSet<Task> getPrioritizedTasks();
+
+    //проверка пересечения по времени двух задач
+    Boolean isIntersects(Task task1, Task task2);
 
     //получение истории просмотров
     List<Task> getHistory();

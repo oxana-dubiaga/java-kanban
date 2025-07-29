@@ -128,31 +128,30 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
         for (String line : allTypesTasksFromFile) {
             String[] splitLine = line.split(",");
 
-            if (!(splitLine.length == 5 || splitLine.length == 6)) {
+            if (!(splitLine.length == 5 || splitLine.length == 7 || splitLine.length == 8)) {
                 System.out.println("Строка " + line + " не соответствует требуемому виду. Данные из строки не записаны.");
                 continue;
             }
 
-            if (splitLine.length == 5) {
-                if (splitLine[1].equalsIgnoreCase("Task")) {
-                    Task task = new Task(splitLine[2], splitLine[4], Integer.parseInt(splitLine[0]));
-                    try {
-                        task = setStatusFromFile(task, splitLine[3]);
-                        fileBackedTaskManager.addNewTask(task);
-                    } catch (TaskStatusException ex) {
-                        System.out.println("В строке " + line + " статус не соответствует требуемому виду. Данные из строки не записаны.");
-                    }
-                } else if (splitLine[1].equalsIgnoreCase("Epic")) {
-                    Epic epic = new Epic(splitLine[2], splitLine[4], Integer.parseInt(splitLine[0]));
-                    try {
-                        epic = setStatusFromFile(epic, splitLine[3]);
-                        fileBackedTaskManager.addNewEpic(epic);
-                    } catch (TaskStatusException ex) {
-                        System.out.println("В строке " + line + " статус не соответствует требуемому виду. Данные из строки не записаны.");
-                    }
+
+            if (splitLine[1].equalsIgnoreCase("Task")) {
+                Task task = new Task(splitLine[2], splitLine[4], Integer.parseInt(splitLine[0]), Integer.parseInt(splitLine[6]), splitLine[5]);
+                try {
+                    task = setStatusFromFile(task, splitLine[3]);
+                    fileBackedTaskManager.addNewTask(task);
+                } catch (TaskStatusException ex) {
+                    System.out.println("В строке " + line + " статус не соответствует требуемому виду. Данные из строки не записаны.");
+                }
+            } else if (splitLine[1].equalsIgnoreCase("Epic")) {
+                Epic epic = new Epic(splitLine[2], splitLine[4], Integer.parseInt(splitLine[0]));
+                try {
+                    epic = setStatusFromFile(epic, splitLine[3]);
+                    fileBackedTaskManager.addNewEpic(epic);
+                } catch (TaskStatusException ex) {
+                    System.out.println("В строке " + line + " статус не соответствует требуемому виду. Данные из строки не записаны.");
                 }
             } else if (splitLine[1].equalsIgnoreCase("Subtask")) {
-                Subtask subtask = new Subtask(splitLine[2], splitLine[4], Integer.parseInt(splitLine[0]), Integer.parseInt(splitLine[5]));
+                Subtask subtask = new Subtask(splitLine[2], splitLine[4], Integer.parseInt(splitLine[0]), Integer.parseInt(splitLine[5]), Integer.parseInt(splitLine[7]), splitLine[6]);
                 try {
                     subtask = setStatusFromFile(subtask, splitLine[3]);
                     fileBackedTaskManager.addNewSubtask(subtask);

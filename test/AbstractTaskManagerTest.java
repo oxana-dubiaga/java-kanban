@@ -26,7 +26,7 @@ abstract class AbstractTaskManagerTest<T extends TaskManager> {
     @Test
     public void operationWithTaskInManager() {
         int taskId = 1;
-        Task task = new Task("Task", "description", taskId);
+        Task task = new Task("Task", "description", taskId, 60, "20.12.2020 15:40");
         taskManager.addNewTask(task);
 
         Task savedTask = taskManager.getTask(taskId);
@@ -55,7 +55,7 @@ abstract class AbstractTaskManagerTest<T extends TaskManager> {
 
         //проверка обновления задачи
         String newName = "new name";
-        Task updatedTask = new Task(newName, "---", taskId);
+        Task updatedTask = new Task(newName, "---", taskId, 50, "08.08.2025 08:08");
         taskManager.updateTask(updatedTask);
         String resultName = taskManager.getTask(taskId).getName();
         assertEquals(newName, resultName, "Задача не обновляется");
@@ -118,7 +118,7 @@ abstract class AbstractTaskManagerTest<T extends TaskManager> {
         Epic epic = new Epic("Epic", "description", epicId);
         taskManager.addNewEpic(epic);
         int subtaskId = 2;
-        Subtask subtask = new Subtask("name", "---", subtaskId, 1);
+        Subtask subtask = new Subtask("name", "---", subtaskId, 1, 45, "14.09.2025 22:15");
         taskManager.addNewSubtask(subtask);
 
         //проверка получения списка подзадач
@@ -144,7 +144,7 @@ abstract class AbstractTaskManagerTest<T extends TaskManager> {
 
         //проверка обновления подзадачи
         String newName = "new name";
-        Subtask updateSubtask = new Subtask(newName, "---", subtaskId, epicId);
+        Subtask updateSubtask = new Subtask(newName, "---", subtaskId, epicId, 120, "25.10.2025 08:30");
         taskManager.updateSubtask(updateSubtask);
         String resultName = taskManager.getSubtask(subtaskId).getName();
         assertEquals(newName, resultName, "Подзадача не обновляется");
@@ -165,7 +165,7 @@ abstract class AbstractTaskManagerTest<T extends TaskManager> {
 
         //добавление подзадачи
         int subtaskId = 2;
-        Subtask subtask = new Subtask("name", "---", subtaskId, epicId);
+        Subtask subtask = new Subtask("name", "---", subtaskId, epicId, 240, "09.09.2025 12:00");
         taskManager.addNewSubtask(subtask);
 
         //получение списка подзадач у эпика
@@ -218,13 +218,13 @@ abstract class AbstractTaskManagerTest<T extends TaskManager> {
     @Test
     public void historyInManager() {
         int taskId = 1;
-        Task task = new Task("Task", "description", taskId);
+        Task task = new Task("Task", "description", taskId, 40, "20.07.2025 11:00");
         int epicId = 2;
         Epic epic = new Epic("Epic", "description", epicId);
         int subtask1Id = 3;
-        Subtask subtask1 = new Subtask("name", "---", subtask1Id, epicId);
+        Subtask subtask1 = new Subtask("name", "---", subtask1Id, epicId, 15, "22.08.2025 14:00");
         int subtask2Id = 4;
-        Subtask subtask2 = new Subtask("name", "---", subtask2Id, epicId);
+        Subtask subtask2 = new Subtask("name", "---", subtask2Id, epicId, 100, "30.08.2025 16:25");
         taskManager.addNewTask(task);
         taskManager.addNewEpic(epic);
         taskManager.addNewSubtask(subtask1);
@@ -281,4 +281,24 @@ abstract class AbstractTaskManagerTest<T extends TaskManager> {
 
 
     }
+
+    @Test
+    public void timeIntersectionCheck() {
+        int taskId1 = 1;
+        Task task1 = new Task("Task1", "description1", taskId1, 180, "20.07.2025 23:00");
+        int taskId2 = 2;
+        Task task2 = new Task("Task2", "description2", taskId2, 120, "20.07.2025 22:00");
+        int taskId3 = 3;
+        Task task3 = new Task("Task3", "description3", taskId3, 120, "21.07.2025 01:00");
+
+        taskManager.addNewTask(task1);
+        taskManager.addNewTask(task2);
+        taskManager.addNewTask(task3);
+
+        List<Task> tasks = taskManager.getAllTasks();
+
+        assertEquals(1, tasks.size(), "Добавляются задачи с наложением п времени");
+        assertEquals(task1, tasks.get(0), "Неправильное добавление задач при наложении по времени");
+    }
+
 }

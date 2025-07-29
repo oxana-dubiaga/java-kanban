@@ -33,7 +33,7 @@ public class FileBackedTaskManagerTest extends AbstractTaskManagerTest {
     @Test
     public void addAndDeleteTasks() {
         int taskId = 1;
-        Task task = new Task("Task", "description", taskId);
+        Task task = new Task("Task", "description", taskId, 240, "03.09.2025 07:00");
 
         //проверка добавления задачи
         taskManager.addNewTask(task);
@@ -49,7 +49,7 @@ public class FileBackedTaskManagerTest extends AbstractTaskManagerTest {
         int epicId = 1;
         Epic epic = new Epic("Epic", "description", epicId);
         int subtaskId = 2;
-        Subtask subtask = new Subtask("name", "---", subtaskId, 1);
+        Subtask subtask = new Subtask("name", "---", subtaskId, 1, 90, "25.08.2025 21:35");
 
 
         //проверка добавления эпика
