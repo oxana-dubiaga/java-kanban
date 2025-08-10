@@ -10,6 +10,7 @@ import serializerdeserializer.*;
 import service.TaskManager;
 
 import java.io.IOException;
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -21,12 +22,12 @@ public class EpicHandler extends BaseHttpHandler implements HttpHandler {
     public EpicHandler(TaskManager taskManager) {
         super(taskManager);
         GsonBuilder gb = new GsonBuilder();
-        gb.registerTypeAdapter(LocalDateTime.class, new DurationAdapter.LocalDateTimeAdapter())
+        gb.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeAdapter())
+                .registerTypeAdapter(Duration.class, new DurationAdapter())
                 .registerTypeAdapter(Epic.class, new EpicSerializer())
                 .registerTypeAdapter(Epic.class, new EpicDeserializer())
                 .registerTypeAdapter(Subtask.class, new SubtaskSerializer())
-                .registerTypeAdapter(Subtask.class, new SubtaskDeserializer())
-                .registerTypeAdapter(java.time.Duration.class, new DurationAdapter());
+                .registerTypeAdapter(Subtask.class, new SubtaskDeserializer());
         gson = gb.create();
     }
 

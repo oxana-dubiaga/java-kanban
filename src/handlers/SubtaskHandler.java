@@ -6,6 +6,7 @@ import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import model.Subtask;
 import serializerdeserializer.DurationAdapter;
+import serializerdeserializer.LocalDateTimeAdapter;
 import serializerdeserializer.SubtaskDeserializer;
 import serializerdeserializer.SubtaskSerializer;
 import service.TaskManager;
@@ -23,7 +24,7 @@ public class SubtaskHandler extends BaseHttpHandler implements HttpHandler {
     public SubtaskHandler(TaskManager taskManager) {
         super(taskManager);
         GsonBuilder gb = new GsonBuilder();
-        gb.registerTypeAdapter(LocalDateTime.class, new DurationAdapter.LocalDateTimeAdapter())
+        gb.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeAdapter())
                 .registerTypeAdapter(Subtask.class, new SubtaskSerializer())
                 .registerTypeAdapter(Subtask.class, new SubtaskDeserializer())
                 .registerTypeAdapter(Duration.class, new DurationAdapter());
