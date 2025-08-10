@@ -16,7 +16,7 @@ import java.util.regex.Pattern;
 
 public class EpicHandler extends BaseHttpHandler implements HttpHandler {
     private Gson gson;
-    private final Pattern PATH_WITH_ID = Pattern.compile("^/epics/\\d+$");
+    private final Pattern pathWithId = Pattern.compile("^/epics/\\d+$");
 
     public EpicHandler(TaskManager taskManager) {
         super(taskManager);
@@ -51,10 +51,10 @@ public class EpicHandler extends BaseHttpHandler implements HttpHandler {
         }
     }
 
-    //обработка GET запроса - получение эпика по id (/epics/id), получение всех эпиков (/epics), 
+    //обработка GET запроса - получение эпика по id (/epics/id), получение всех эпиков (/epics),
     //получение подзадач у эпика (/epics/id/subtasks)
     private void handleGetRequest(HttpExchange exchange, String path) throws IOException {
-        if (PATH_WITH_ID.matcher(path).matches()) {
+        if (pathWithId.matcher(path).matches()) {
             String[] splitPath = path.split("/");
             int id = Integer.parseInt(splitPath[2]);
             Epic epic = taskManager.getEpic(id);
@@ -107,7 +107,7 @@ public class EpicHandler extends BaseHttpHandler implements HttpHandler {
 
     //обработка DELETE запроса
     private void handleDeleteRequest(HttpExchange exchange, String path) throws IOException {
-        if (PATH_WITH_ID.matcher(path).matches()) {
+        if (pathWithId.matcher(path).matches()) {
             try {
                 String[] splitPath = path.split("/");
                 int id = Integer.parseInt(splitPath[2]);

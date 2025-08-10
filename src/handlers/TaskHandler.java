@@ -18,7 +18,7 @@ import java.util.regex.Pattern;
 
 public class TaskHandler extends BaseHttpHandler implements HttpHandler {
     private Gson gson;
-    private final Pattern PATH_WITH_ID = Pattern.compile("^/tasks/\\d+$");
+    private final Pattern pathWithId = Pattern.compile("^/tasks/\\d+$");
 
     public TaskHandler(TaskManager taskManager) {
         super(taskManager);
@@ -53,7 +53,7 @@ public class TaskHandler extends BaseHttpHandler implements HttpHandler {
 
     //обработка GET запроса - получение задачи по id (/tasks/id) или получение всех задач (/tasks)
     private void handleGetRequest(HttpExchange exchange, String path) throws IOException {
-        if (PATH_WITH_ID.matcher(path).matches()) {
+        if (pathWithId.matcher(path).matches()) {
             String[] splitPath = path.split("/");
             int id = Integer.parseInt(splitPath[2]);
             Task task = taskManager.getTask(id);
@@ -80,7 +80,7 @@ public class TaskHandler extends BaseHttpHandler implements HttpHandler {
 
     //обработка POST запроса - добавление новой задачи или обновление существующей
     public void handlePostRequest(HttpExchange exchange, String path) throws IOException {
-        if (PATH_WITH_ID.matcher(path).matches()) {
+        if (pathWithId.matcher(path).matches()) {
             try {
                 String requestBody = readBody(exchange);
                 Task updatedTask = gson.fromJson(requestBody, Task.class);
@@ -122,7 +122,7 @@ public class TaskHandler extends BaseHttpHandler implements HttpHandler {
 
     //обработка DELETE запроса
     private void handleDeleteRequest(HttpExchange exchange, String path) throws IOException {
-        if (PATH_WITH_ID.matcher(path).matches()) {
+        if (pathWithId.matcher(path).matches()) {
             try {
                 String[] splitPath = path.split("/");
                 int id = Integer.parseInt(splitPath[2]);

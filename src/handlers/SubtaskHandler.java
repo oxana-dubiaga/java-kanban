@@ -18,7 +18,7 @@ import java.util.regex.Pattern;
 
 public class SubtaskHandler extends BaseHttpHandler implements HttpHandler {
     private Gson gson;
-    private final Pattern PATH_WITH_ID = Pattern.compile("^/subtasks/\\d+$");
+    private final Pattern pathWithId = Pattern.compile("^/subtasks/\\d+$");
 
     public SubtaskHandler(TaskManager taskManager) {
         super(taskManager);
@@ -53,7 +53,7 @@ public class SubtaskHandler extends BaseHttpHandler implements HttpHandler {
 
     //обработка GET запроса - получение задачи по id (/subtasks/id) или получение всех задач (/subtasks)
     private void handleGetRequest(HttpExchange exchange, String path) throws IOException {
-        if (PATH_WITH_ID.matcher(path).matches()) {
+        if (pathWithId.matcher(path).matches()) {
             String[] splitPath = path.split("/");
             int id = Integer.parseInt(splitPath[2]);
             Subtask subtask = taskManager.getSubtask(id);
@@ -80,7 +80,7 @@ public class SubtaskHandler extends BaseHttpHandler implements HttpHandler {
 
     //обработка POST запроса - добавление новой подзадачи или обновление существующей
     private void handlePostRequest(HttpExchange exchange, String path) throws IOException {
-        if (PATH_WITH_ID.matcher(path).matches()) {
+        if (pathWithId.matcher(path).matches()) {
             try {
                 String requestBody = readBody(exchange);
                 Subtask updatedSubtask = gson.fromJson(requestBody, Subtask.class);
@@ -125,7 +125,7 @@ public class SubtaskHandler extends BaseHttpHandler implements HttpHandler {
 
     //обработка DELETE запроса
     private void handleDeleteRequest(HttpExchange exchange, String path) throws IOException {
-        if (PATH_WITH_ID.matcher(path).matches()) {
+        if (pathWithId.matcher(path).matches()) {
             try {
                 String[] splitPath = path.split("/");
                 int id = Integer.parseInt(splitPath[2]);
