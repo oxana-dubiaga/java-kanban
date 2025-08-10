@@ -1,6 +1,5 @@
-package Handlers;
+package handlers;
 
-import SerializerDeserializer.*;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.sun.net.httpserver.HttpExchange;
@@ -8,17 +7,18 @@ import com.sun.net.httpserver.HttpHandler;
 import model.Epic;
 import model.Subtask;
 import model.Task;
+import serializerdeserializer.*;
 import service.TaskManager;
 
 import java.io.IOException;
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.TreeSet;
 
-public class HistoryHandler extends BaseHttpHandler implements HttpHandler {
+public class PrioritizedHandler extends BaseHttpHandler implements HttpHandler {
     private Gson gson;
 
-    public HistoryHandler(TaskManager taskManager) {
+    public PrioritizedHandler(TaskManager taskManager) {
         super(taskManager);
         GsonBuilder gb = new GsonBuilder();
         gb.registerTypeAdapter(LocalDateTime.class, new DurationAdapter.LocalDateTimeAdapter())
@@ -47,12 +47,12 @@ public class HistoryHandler extends BaseHttpHandler implements HttpHandler {
         }
     }
 
-    //обработка GET запроса - получение истории просмотров
+    //обработка GET запроса - получение списка по приоритету
     private void handleGetRequest(HttpExchange exchange, String path) throws IOException {
-        if (path.equals("/history")) {
-            List<Task> history = taskManager.getHistory();
+        if (path.equals("/prioritized")) {
+            TreeSet<Task> prioritizedTasks = taskManager.getPrioritizedTasks();
             try {
-                sendText(exchange, gson.toJson(history));
+                sendText(exchange, gson.toJson(prioritizedTasks));
             } catch (IOException ex) {
                 sendInternalServerError(exchange);
             }
@@ -60,5 +60,6 @@ public class HistoryHandler extends BaseHttpHandler implements HttpHandler {
             sendNotFound(exchange);
         }
     }
+
 
 }

@@ -1,13 +1,13 @@
-package Handlers;
+package handlers;
 
-import SerializerDeserializer.DurationAdapter;
-import SerializerDeserializer.SubtaskDeserializer;
-import SerializerDeserializer.SubtaskSerializer;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import model.Subtask;
+import serializerdeserializer.DurationAdapter;
+import serializerdeserializer.SubtaskDeserializer;
+import serializerdeserializer.SubtaskSerializer;
 import service.TaskManager;
 
 import java.io.IOException;

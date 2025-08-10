@@ -1,12 +1,12 @@
-package Handlers;
+package handlers;
 
-import SerializerDeserializer.*;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import model.Epic;
 import model.Subtask;
+import serializerdeserializer.*;
 import service.TaskManager;
 
 import java.io.IOException;

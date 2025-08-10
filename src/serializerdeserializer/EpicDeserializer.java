@@ -1,4 +1,4 @@
-package SerializerDeserializer;
+package serializerdeserializer;
 
 import com.google.gson.*;
 import model.Epic;

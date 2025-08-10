@@ -1,14 +1,14 @@
-import Http.HttpTaskServer;
-import SerializerDeserializer.DurationAdapter;
-import SerializerDeserializer.TaskDeserializer;
-import SerializerDeserializer.TaskSerializer;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+import http.HttpTaskServer;
 import model.Task;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import serializerdeserializer.DurationAdapter;
+import serializerdeserializer.TaskDeserializer;
+import serializerdeserializer.TaskSerializer;
 import service.Managers;
 import service.TaskManager;
 

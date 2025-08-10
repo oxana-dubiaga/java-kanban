@@ -1,16 +1,16 @@
-import Http.HttpTaskServer;
-import SerializerDeserializer.DurationAdapter;
-import SerializerDeserializer.EpicDeserializer;
-import SerializerDeserializer.EpicSerializer;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+import http.HttpTaskServer;
 import model.Epic;
 import model.Subtask;
 import model.Task;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import serializerdeserializer.DurationAdapter;
+import serializerdeserializer.EpicDeserializer;
+import serializerdeserializer.EpicSerializer;
 import service.Managers;
 import service.TaskManager;
 
