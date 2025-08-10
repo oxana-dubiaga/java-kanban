@@ -1,4 +1,4 @@
-package Http.SerializerDeserializer;
+package SerializerDeserializer;
 
 import com.google.gson.*;
 import com.google.gson.stream.JsonReader;

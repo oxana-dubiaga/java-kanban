@@ -1,7 +1,7 @@
 import Http.HttpTaskServer;
-import Http.SerializerDeserializer.DurationAdapter;
-import Http.SerializerDeserializer.EpicDeserializer;
-import Http.SerializerDeserializer.EpicSerializer;
+import SerializerDeserializer.DurationAdapter;
+import SerializerDeserializer.EpicDeserializer;
+import SerializerDeserializer.EpicSerializer;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;

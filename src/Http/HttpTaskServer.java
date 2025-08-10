@@ -1,6 +1,6 @@
 package Http;
 
-import Http.Handlers.*;
+import Handlers.*;
 import com.sun.net.httpserver.HttpServer;
 import service.Managers;
 import service.TaskManager;

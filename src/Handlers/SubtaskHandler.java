@@ -1,8 +1,8 @@
-package Http.Handlers;
+package Handlers;
 
-import Http.SerializerDeserializer.DurationAdapter;
-import Http.SerializerDeserializer.SubtaskDeserializer;
-import Http.SerializerDeserializer.SubtaskSerializer;
+import SerializerDeserializer.DurationAdapter;
+import SerializerDeserializer.SubtaskDeserializer;
+import SerializerDeserializer.SubtaskSerializer;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.sun.net.httpserver.HttpExchange;
