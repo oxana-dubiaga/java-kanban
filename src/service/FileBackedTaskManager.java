@@ -23,9 +23,10 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
 
 
     @Override
-    public void addNewTask(Task newTask) {
-        super.addNewTask(newTask);
+    public int addNewTask(Task newTask) {
+        int statusCode  = super.addNewTask(newTask);
         save();
+        return statusCode;
     }
 
     @Override
@@ -35,9 +36,10 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
     }
 
     @Override
-    public void addNewSubtask(Subtask newSubtask) {
-        super.addNewSubtask(newSubtask);
+    public int addNewSubtask(Subtask newSubtask) {
+        int statusCode = super.addNewSubtask(newSubtask);
         save();
+        return statusCode;
     }
 
     @Override
@@ -77,9 +79,10 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
     }
 
     @Override
-    public void updateTask(Task newTask) {
-        super.updateTask(newTask);
+    public int updateTask(Task newTask) {
+        int statusCode = super.updateTask(newTask);
         save();
+        return statusCode;
     }
 
     @Override
@@ -89,9 +92,10 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
     }
 
     @Override
-    public void updateSubtask(Subtask newSubtask) {
-        super.updateSubtask(newSubtask);
+    public int updateSubtask(Subtask newSubtask) {
+        int statusCode = super.updateSubtask(newSubtask);
         save();
+        return statusCode;
     }
 
 

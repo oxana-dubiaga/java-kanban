@@ -88,10 +88,11 @@ public class InMemoryTaskManager implements TaskManager {
 
     //добавление трех видов задач
     @Override
-    public void addNewTask(Task newTask) {
+    public int addNewTask(Task newTask) {
         if (newTask != null) {
             if (prioritizedTasks.stream().anyMatch(task -> isIntersects(task, newTask))) {
                 System.out.println("Добавляемая задача " + newTask.getName() + " накладывается на уже существующую. Задача не добавлена");
+                return 1;
             } else {
                 newTask.setId(currentId);
                 currentId++;
@@ -99,6 +100,7 @@ public class InMemoryTaskManager implements TaskManager {
                 prioritizedTasks.add(newTask);
             }
         }
+        return 0;
     }
 
     @Override
@@ -112,14 +114,16 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public void addNewSubtask(Subtask newSubtask) {
+    public int addNewSubtask(Subtask newSubtask) {
         if (newSubtask != null) {
             int parentEpicId = newSubtask.getEpicId();
             if (!epics.containsKey(parentEpicId)) {
                 System.out.println("Эпика, указанного в подзадаче, не существует, подзадача не добавлена");
+                return 2;
             } else {
                 if (prioritizedTasks.stream().anyMatch(task -> isIntersects(task, newSubtask))) {
                     System.out.println("Добавляемая подзадача " + newSubtask.getName() + " накладывается на уже существующую. Задача не добавлена");
+                    return 1;
                 } else {
                     newSubtask.setId(currentId);
                     currentId++;
@@ -132,6 +136,7 @@ public class InMemoryTaskManager implements TaskManager {
                 }
             }
         }
+        return 0;
     }
 
 
@@ -199,14 +204,16 @@ public class InMemoryTaskManager implements TaskManager {
 
     //обновление для трех видов задач
     @Override
-    public void updateTask(Task newTask) {
+    public int updateTask(Task newTask) {
         if (newTask != null) {
             int id = newTask.getId();
             if (!tasks.containsKey(id)) {
                 System.out.println("Такой задачи нет в списке");
+                return 2;
             } else {
                 if (prioritizedTasks.stream().filter(task -> !task.equals(tasks.get(id))).anyMatch(task -> isIntersects(task, newTask))) {
                     System.out.println("Обновляемая задача " + newTask.getName() + " накладывается на уже существующую. Задача не обновлена");
+                    return 1;
                 } else {
                     prioritizedTasks.remove(tasks.get(id));
                     prioritizedTasks.add(newTask);
@@ -214,6 +221,7 @@ public class InMemoryTaskManager implements TaskManager {
                 }
             }
         }
+        return 0;
     }
 
     //в методе при обновлении удаляются из списка подзадач те, которые были в старой версии эпика, но отсутствуют в новой
@@ -241,14 +249,16 @@ public class InMemoryTaskManager implements TaskManager {
     //в методе при обновлении подзадачи проверяется, изменился ли эпик, которому принадлежит подзадача,
     //и обновляются статусы либо текущего эпика, либо старого и нового эпика (в случае измения принадлежности)
     @Override
-    public void updateSubtask(Subtask newSubtask) {
+    public int updateSubtask(Subtask newSubtask) {
         if (newSubtask != null) {
             int id = newSubtask.getId();
             if (!subtasks.containsKey(id)) {
                 System.out.println("Такой подзадачи нет в списке");
+                return 2;
             } else {
                 if (prioritizedTasks.stream().filter(task -> !task.equals(subtasks.get(id))).anyMatch(task -> isIntersects(task, newSubtask))) {
                     System.out.println("Обновляемая подзадача " + newSubtask.getName() + " накладывается на уже существующую. Подзадача не обновлена");
+                    return 1;
                 } else {
                     Subtask oldSubtask = subtasks.get(id);
                     int oldParentEpicId = oldSubtask.getEpicId();
@@ -269,6 +279,7 @@ public class InMemoryTaskManager implements TaskManager {
                 }
             }
         }
+        return 0;
     }
 
 
