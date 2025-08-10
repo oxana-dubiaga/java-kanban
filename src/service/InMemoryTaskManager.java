@@ -248,6 +248,9 @@ public class InMemoryTaskManager implements TaskManager {
 
     //в методе при обновлении подзадачи проверяется, изменился ли эпик, которому принадлежит подзадача,
     //и обновляются статусы либо текущего эпика, либо старого и нового эпика (в случае измения принадлежности)
+    //при смене айди родительского эпика происходит проверка наличия эпика с новым айди в менеджере
+    //если эпик с новым айди уже был - он и старый родительский эпик обновляются
+    //если эпика с новым айди нет - создается новый эпик с currentId, старый и новый эпики обновляются
     @Override
     public int updateSubtask(Subtask newSubtask) {
         if (newSubtask != null) {
@@ -262,20 +265,35 @@ public class InMemoryTaskManager implements TaskManager {
                 } else {
                     Subtask oldSubtask = subtasks.get(id);
                     int oldParentEpicId = oldSubtask.getEpicId();
+                    Epic oldParentEpic = epics.get(oldParentEpicId);
                     int newParentEpicId = newSubtask.getEpicId();
-                    Epic parentEpic = epics.get(newParentEpicId);
-                    if (oldParentEpicId != newParentEpicId) {
-                        Epic oldParentEpic = epics.get(oldParentEpicId);
-                        oldParentEpic.deleteSubtask(newSubtask);
+                    if (epics.containsKey(newParentEpicId)) {
+                        Epic parentEpic = epics.get(newParentEpicId);
+                        if (oldParentEpicId != newParentEpicId) {
+                            oldParentEpic.deleteSubtask(newSubtask);
+                            oldParentEpic = updateEpicStatus(oldParentEpic);
+                            epics.put(oldParentEpicId, oldParentEpic);
+                            parentEpic.addSubtask(newSubtask);
+                        }
+                        prioritizedTasks.remove(subtasks.get(id));
+                        subtasks.put(id, newSubtask);
+                        prioritizedTasks.add(subtasks.get(id));
+                        parentEpic = updateEpicStatus(parentEpic);
+                        epics.put(newParentEpicId, parentEpic);
+                    } else {
+                        Epic newParentEpic = new Epic("default epic name", "defult dicscription", currentId);
+                        currentId++;
+                        oldParentEpic.deleteSubtask(oldSubtask);
                         oldParentEpic = updateEpicStatus(oldParentEpic);
                         epics.put(oldParentEpicId, oldParentEpic);
-                        parentEpic.addSubtask(newSubtask);
+                        newSubtask.setEpicId(newParentEpic.getId());
+                        newParentEpic.addSubtask(newSubtask);
+                        newParentEpic = updateEpicStatus(newParentEpic);
+                        prioritizedTasks.remove(subtasks.get(id));
+                        subtasks.put(id, newSubtask);
+                        prioritizedTasks.add(subtasks.get(id));
+                        epics.put(newParentEpic.getId(), newParentEpic);
                     }
-                    prioritizedTasks.remove(subtasks.get(id));
-                    subtasks.put(id, newSubtask);
-                    prioritizedTasks.add(subtasks.get(id));
-                    parentEpic = updateEpicStatus(parentEpic);
-                    epics.put(newParentEpicId, parentEpic);
                 }
             }
         }

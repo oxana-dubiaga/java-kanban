@@ -80,6 +80,10 @@ public class SubtaskHandler extends BaseHttpHandler implements HttpHandler {
     }
 
     //обработка POST запроса - добавление новой подзадачи или обновление существующей
+    //в логике работы InMemoryTaskManager внесены изменения - теперь при обновлении подзадачи (POST /subtasks/id) - вызове метода updateSubtask
+    //при смене айди родительского эпика происходит проверка наличия эпика с новым айди в менеджере
+    //если эпик с новым айди уже был - он и старый родительский эпик обновляются
+    //если эпика с новым айди нет - создается новый эпик с currentId, старый и новый эпики обновляются
     private void handlePostRequest(HttpExchange exchange, String path) throws IOException {
         if (pathWithId.matcher(path).matches()) {
             try {

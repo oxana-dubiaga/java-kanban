@@ -26,23 +26,33 @@ public class BaseHttpHandler {
     }
 
     protected void sendNotFound(HttpExchange exchange) throws IOException {
-        exchange.sendResponseHeaders(404, 0);
-        exchange.close();
+        String jsonErrorString = "{\"error\":\"Запрашиваемый адрес не существует.\"}";
+        byte[] resp = jsonErrorString.getBytes(StandardCharsets.UTF_8);
+        exchange.getResponseHeaders().add("Content-Type", "application/json;charset=utf-8");
+        exchange.sendResponseHeaders(404, resp.length);
+        try (OutputStream os = exchange.getResponseBody()) {
+            os.write(resp);
+        }
     }
 
     protected void sendHasInteractions(HttpExchange exchange) throws IOException {
-        exchange.sendResponseHeaders(406, 0);
-        exchange.getResponseBody().close();
-    }
-
-    protected void sendBadRequest(HttpExchange exchange) throws IOException {
-        exchange.sendResponseHeaders(400, 0);
-        exchange.getResponseBody().close();
+        String jsonErrorString = "{\"error\":\"Добавляемая задача накладывается по времени на уже существующие. Задача на добавлена\"}";
+        byte[] resp = jsonErrorString.getBytes(StandardCharsets.UTF_8);
+        exchange.getResponseHeaders().add("Content-Type", "application/json;charset=utf-8");
+        exchange.sendResponseHeaders(406, resp.length);
+        try (OutputStream os = exchange.getResponseBody()) {
+            os.write(resp);
+        }
     }
 
     protected void sendInternalServerError(HttpExchange exchange) throws IOException {
-        exchange.sendResponseHeaders(500, 0);
-        exchange.getResponseBody().close();
+        String jsonErrorString = "{\"error\":\"Внутрення ошибка сервера\"}";
+        byte[] resp = jsonErrorString.getBytes(StandardCharsets.UTF_8);
+        exchange.getResponseHeaders().add("Content-Type", "application/json;charset=utf-8");
+        exchange.sendResponseHeaders(500, resp.length);
+        try (OutputStream os = exchange.getResponseBody()) {
+            os.write(resp);
+        }
     }
 
     protected void sendSuccessUpdate(HttpExchange exchange) throws IOException {
