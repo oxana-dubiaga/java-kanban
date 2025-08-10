@@ -7,6 +7,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import serializerdeserializer.DurationAdapter;
+import serializerdeserializer.LocalDateTimeAdapter;
 import serializerdeserializer.TaskDeserializer;
 import serializerdeserializer.TaskSerializer;
 import service.Managers;
@@ -35,10 +36,11 @@ public class TaskHandlerTest {
         manager.deleteALLTasks();
         manager.deleteAllEpic();
         GsonBuilder gb = new GsonBuilder();
-        gb.registerTypeAdapter(LocalDateTime.class, new DurationAdapter.LocalDateTimeAdapter())
+        gb.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeAdapter())
                 .registerTypeAdapter(Duration.class, new DurationAdapter())
                 .registerTypeAdapter(Task.class, new TaskSerializer())
-                .registerTypeAdapter(Task.class, new TaskDeserializer());
+                .registerTypeAdapter(Task.class, new TaskDeserializer())
+                .registerTypeAdapter(Duration.class, new DurationAdapter());
         gson = gb.create();
         taskServer.startServer();
     }

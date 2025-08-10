@@ -8,9 +8,7 @@ import model.Task;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import serializerdeserializer.DurationAdapter;
-import serializerdeserializer.EpicDeserializer;
-import serializerdeserializer.EpicSerializer;
+import serializerdeserializer.*;
 import service.Managers;
 import service.TaskManager;
 
@@ -36,10 +34,12 @@ public class EpicHandlerTest {
         manager.deleteALLTasks();
         manager.deleteAllEpic();
         GsonBuilder gb = new GsonBuilder();
-        gb.registerTypeAdapter(LocalDateTime.class, new DurationAdapter.LocalDateTimeAdapter())
+        gb.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeAdapter())
+                .registerTypeAdapter(Duration.class, new DurationAdapter())
                 .registerTypeAdapter(Epic.class, new EpicSerializer())
                 .registerTypeAdapter(Epic.class, new EpicDeserializer())
-                .registerTypeAdapter(Duration.class, new DurationAdapter());
+                .registerTypeAdapter(Subtask.class, new SubtaskSerializer())
+                .registerTypeAdapter(Subtask.class, new SubtaskDeserializer());
         gson = gb.create();
         taskServer.startServer();
     }

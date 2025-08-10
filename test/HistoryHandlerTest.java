@@ -33,7 +33,7 @@ public class HistoryHandlerTest {
         manager.deleteALLTasks();
         manager.deleteAllEpic();
         GsonBuilder gb = new GsonBuilder();
-        gb.registerTypeAdapter(LocalDateTime.class, new DurationAdapter.LocalDateTimeAdapter())
+        gb.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeAdapter())
                 .registerTypeAdapter(Duration.class, new DurationAdapter())
                 .registerTypeAdapter(Task.class, new TaskSerializer())
                 .registerTypeAdapter(Task.class, new TaskDeserializer())
