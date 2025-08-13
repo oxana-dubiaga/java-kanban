@@ -26,11 +26,11 @@ public interface TaskManager {
 
 
     //добавление трех видов задач
-    void addNewTask(Task newTask);
+    int addNewTask(Task newTask);
 
     void addNewEpic(Epic newEpic);
 
-    void addNewSubtask(Subtask newSubtask);
+    int addNewSubtask(Subtask newSubtask);
 
 
     //очистка списков для трех видов задач
@@ -50,11 +50,11 @@ public interface TaskManager {
 
 
     //обновление для трех видов задач
-    void updateTask(Task newTask);
+    int updateTask(Task newTask);
 
     void updateEpic(Epic newEpic);
 
-    void updateSubtask(Subtask newSubtask);
+    int updateSubtask(Subtask newSubtask);
 
 
     List<Subtask> getEpicsSubtasks(Epic epic);
